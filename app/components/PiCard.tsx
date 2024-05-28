@@ -80,7 +80,6 @@ function PiCard({
                     setIsDeletingChapter(true);
                     const res = await deleteChapter({
                       id: id ?? "",
-                      classId: classId,
                     });
                     if (res.success) {
                       setIsDeletingChapter(false);

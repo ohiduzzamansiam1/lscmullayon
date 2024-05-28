@@ -31,7 +31,7 @@ export const createClass = async ({
           teacherId: user?.id ?? "",
         },
       });
-      revalidatePath("/classes");
+      revalidatePath("/", "layout");
       return {
         message: `Class ${className}-${section} created!`,
         success: true,
@@ -50,7 +50,7 @@ export const createClass = async ({
 export const deleteClass = async ({ id }: { id: string }) => {
   try {
     await prisma.class.delete({ where: { id } });
-    revalidatePath("/classes");
+    revalidatePath("/", "layout");
     return {
       message: `Class deleted!`,
       success: true,
@@ -60,16 +60,10 @@ export const deleteClass = async ({ id }: { id: string }) => {
   }
 };
 
-export const deleteChapter = async ({
-  id,
-  classId,
-}: {
-  id: string;
-  classId: string;
-}) => {
+export const deleteChapter = async ({ id }: { id: string }) => {
   try {
     await prisma.pi.delete({ where: { id } });
-    revalidatePath("/classes/" + classId);
+    revalidatePath("/", "layout");
     return {
       message: `Chapter deleted!`,
       success: true,
@@ -135,7 +129,7 @@ export const createPi = async ({
       });
     }
 
-    revalidatePath("/classes/" + classId);
+    revalidatePath("/", "layout");
     return {
       message: `Pi created!`,
       success: true,
@@ -160,7 +154,7 @@ export const createStudentsNumber = async ({
         totalStudents: howMany,
       },
     });
-    revalidatePath("/classes");
+    revalidatePath("/", "layout");
     return {
       message: `Students added!`,
       success: true,
@@ -186,6 +180,7 @@ export const updateGradeBox = async ({
         grade: grade,
       },
     });
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error: any) {
     return { success: false, message: error.message };
@@ -208,6 +203,7 @@ export const updateStudentRedMark = async ({
         isRedMarked: isRedMarked,
       },
     });
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error: any) {
     return { success: false, message: error.message };
