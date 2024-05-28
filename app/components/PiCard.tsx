@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { deleteChapter } from "@/lib/actions";
 import { Loader, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -29,16 +29,34 @@ function PiCard({
 }) {
   const [isDeletingChapter, setIsDeletingChapter] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isChapterLoading, setIsChapterLoading] = useState(false);
+
+  const router = useRouter();
 
   return (
     <div className="border border-black/5 rounded-2xl relative shadow-2xl shadow-black/5 mx-auto w-full h-40 flex flex-col">
-      <Link
-        href={`/classes/${id}/pi/${id}`}
+      <button
         className="text-3xl text-center font-bold flex-1 w-full grid place-content-center"
+        onClick={() => {
+          setIsChapterLoading(true);
+
+          setTimeout(() => {
+            router.push(`/classes/${id}/pi/${id}`);
+            setTimeout(() => {
+              setIsChapterLoading(false);
+            });
+          }, 500);
+        }}
       >
-        <p className="text-xs font-normal text-muted-foreground">Chapter</p>
-        {chapter}
-      </Link>
+        {isChapterLoading ? (
+          <Loader className="size-5 animate-spin" />
+        ) : (
+          <>
+            <p className="text-xs font-normal text-muted-foreground">Chapter</p>
+            {chapter}
+          </>
+        )}
+      </button>
 
       <div className="p-2 py-3 flex justify-end absolute bottom-0 right-0">
         <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
