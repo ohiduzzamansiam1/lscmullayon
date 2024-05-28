@@ -44,7 +44,7 @@ function PiCard({
             router.push(`/classes/${id}/pi/${id}`);
             setTimeout(() => {
               setIsChapterLoading(false);
-            });
+            }, 9999999);
           }, 500);
         }}
       >
