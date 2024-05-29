@@ -57,8 +57,6 @@ async function ShowClasses() {
     return a.section.localeCompare(b.section); // Sort by section in ascending order
   });
 
-  console.log(sortedClasses[1].totalStudent[0].totalStudents);
-
   return (
     <>
       {!classes.length && <NoClass />}
