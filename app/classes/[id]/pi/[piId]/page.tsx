@@ -3,13 +3,28 @@ import PiGradeBoxs from "@/app/components/PiGradeBoxs";
 import StudentRollBox from "@/app/components/StudentRollBox";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { checkAuth } from "@/helpers/auth.helper";
+import { cn } from "@/lib/utils";
 import { prisma } from "@/prisma/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 async function getPis(piId: string) {
   return await prisma.student.findMany({
     where: {
       piId: piId,
+    },
+    include: {
+      pi: {
+        include: {
+          class: {
+            include: {
+              teacher: true,
+            },
+          },
+        },
+      },
     },
   });
 }
@@ -53,7 +68,19 @@ async function TotalStudentsHeading({ piId }: { piId: string }) {
 }
 
 async function ShowStudents({ piId }: { piId: string }) {
+  await checkAuth();
+
   const students = await getPis(piId);
+
+  const teacherIdOfClass = students[0].pi.class.teacherId;
+
+  const { getUser } = getKindeServerSession();
+
+  const user = await getUser();
+
+  if (user?.id !== teacherIdOfClass) {
+    redirect("/classes");
+  }
 
   return (
     <>
@@ -61,10 +88,11 @@ async function ShowStudents({ piId }: { piId: string }) {
         .sort((a, b) => parseInt(a.roll) - parseInt(b.roll))
         .map((s) => (
           <div
-            className="border-b flex items-center justify-between pr-8"
+            className={cn("border-b flex items-center justify-between pr-11")}
             key={s.id}
           >
             <StudentRollBox
+              grade={s.grade}
               studentId={s.id}
               roll={s.roll}
               isRedMarked={s.isRedMarked}

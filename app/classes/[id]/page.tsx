@@ -3,7 +3,10 @@ import LoadingLogo from "@/app/components/LoadingLogo";
 import PiCard from "@/app/components/PiCard";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { checkAuth } from "@/helpers/auth.helper";
 import { prisma } from "@/prisma/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const getPis = async (classId: string) => {
@@ -13,6 +16,7 @@ const getPis = async (classId: string) => {
     },
     include: {
       pi: true,
+      teacher: true,
     },
   });
 };
@@ -38,14 +42,24 @@ export default function PiRoute({ params }: { params: { id: string } }) {
 }
 
 async function ShowPis({ classId }: { classId: string }) {
+  await checkAuth();
+
   const classPi = await getPis(classId);
+
+  const { getUser } = getKindeServerSession();
+
+  const user = await getUser();
+
+  if (user?.id !== classPi?.teacherId) {
+    redirect("/classes");
+  }
 
   return (
     <>
       {!classPi?.pi.length ? (
         <NoPi />
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-3 p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-3 p-4">
           {classPi?.pi
             .sort((a, b) => a.chapter - b.chapter)
             .map((pi) => (

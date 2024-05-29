@@ -12,6 +12,9 @@ const getClasses = async (teacherId: string) => {
     where: {
       teacherId,
     },
+    include: {
+      totalStudent: true,
+    },
   });
   return classes;
 };
@@ -54,18 +57,21 @@ async function ShowClasses() {
     return a.section.localeCompare(b.section); // Sort by section in ascending order
   });
 
+  console.log(sortedClasses[1].totalStudent[0].totalStudents);
+
   return (
     <>
       {!classes.length && <NoClass />}
 
       {classes.length > 0 && (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-3 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-3 p-4">
           {sortedClasses.map((c) => (
             <ClassCard
               key={c.id}
               className={c.class}
               section={c.section}
               id={c.id}
+              totalStudent={c.totalStudent[0]?.totalStudents}
             />
           ))}
         </div>

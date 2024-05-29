@@ -36,9 +36,11 @@ function ClassCard({
   className,
   section,
   id,
+  totalStudent,
 }: {
   className: string;
   section: string;
+  totalStudent: number;
   id?: string;
 }) {
   const [isDeletingClass, setIsDeletingClass] = useState(false);
@@ -130,7 +132,12 @@ function ClassCard({
           ) : (
             <>
               <p className="text-xs font-normal text-muted-foreground">Class</p>
-              {className}/{section}
+              <p className="my-1">
+                {className}/{section}
+              </p>
+              <p className="text-xs font-normal text-muted-foreground">
+                {totalStudent}
+              </p>
             </>
           )}
         </button>

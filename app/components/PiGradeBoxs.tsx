@@ -29,7 +29,7 @@ export default function PiGradeBoxs({
   return (
     <>
       <form action={handleGradeBoxChange}>
-        <div className="flex items-center gap-2 scale-125">
+        <div className="flex items-center gap-2 scale-150">
           <button
             type="submit"
             name="1"
