@@ -74,7 +74,6 @@ function CreateClassForm({ handleOpen }: { handleOpen: () => void }) {
                           <SelectItem value="7">Class 7</SelectItem>
                           <SelectItem value="8">Class 8</SelectItem>
                           <SelectItem value="9">Class 9</SelectItem>
-                          <SelectItem value="10">Class 10</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
