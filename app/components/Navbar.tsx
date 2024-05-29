@@ -14,12 +14,17 @@ async function Navbar() {
 
   return (
     <div className="mx-auto w-full flex justify-between items-center p-5 z-10 shadow-2xl shadow-black/10 border rounded-full px-6 md:my-5">
-      <Link
-        href={"/classes"}
-        className="font-extrabold select-none font-logo text-2xl"
-      >
-        LSC
-      </Link>
+      <div className="flex items-center gap-1">
+        <Link
+          href={"/classes"}
+          className="font-extrabold font-poppins select-none text-xl"
+        >
+          LSC
+        </Link>
+        <p className="text-sm text-muted-foreground font-semibold font-damion">
+          - Siam
+        </p>
+      </div>
       <div className="flex items-center">
         {(await isAuthenticated()) ? (
           <NavProfile user={user} />

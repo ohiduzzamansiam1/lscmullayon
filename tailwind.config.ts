@@ -18,7 +18,8 @@ const config = {
       },
     },
     fontFamily: {
-      logo: ["Permanent Marker"],
+      damion: ["Damion"],
+      poppins: ["Poppins"],
     },
     extend: {
       colors: {

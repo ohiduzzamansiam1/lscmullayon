@@ -22,7 +22,7 @@ function CreateClassButton() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" className="text-xs">
-          <Plus className="size-4 mr-1" /> Add Class
+          <Plus className="size-4 mr-1" /> New Class
         </Button>
       </DialogTrigger>
 
